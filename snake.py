@@ -1,23 +1,30 @@
 import pygame
+import random
 
 pygame.init()
 screen = pygame.display.set_mode((1280, 720))
 
 exit_game = False
 
+
 #initial coordinate
-x = 100
-y = 100
+x = 90
+y = 90
 
 oldx = x
 oldy = y
+
+foodx = random.randrange(0, 1280, 30)
+foody = random.randrange(0, 720, 30)
+
 
 #direction 
 direction = "RIGHT"
 
 #speed for the player
-velocity = 12
+velocity = 15
 clock = pygame.time.Clock()
+
 
 def snake_move(x, y, oldx, oldy): 
     pygame.draw.rect(screen, (0, 0, 0), pygame.Rect(oldx, oldy, 30, 30))
@@ -25,7 +32,8 @@ def snake_move(x, y, oldx, oldy):
 
 while not exit_game:
     pygame.draw.rect(screen, (255, 192, 203), pygame.Rect(x, y, 30, 30))
-    pygame.display.update()
+    pygame.draw.rect(screen, (0, 255, 255), pygame.Rect(foodx, foody, 30, 30))
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             exit_game = True        
@@ -55,6 +63,10 @@ while not exit_game:
         oldy = y
         y-=velocity
 
+    if x == foodx and y == foody:
+        foodx = random.randrange(0, 1280, 30)
+        foody = random.randrange(0, 720, 30)
+
     snake_move(x, y, oldx, oldy)
     pygame.display.update()
-    clock.tick(10)
+    clock.tick(5)
