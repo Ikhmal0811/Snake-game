@@ -17,6 +17,10 @@ oldy = y
 foodx = random.randrange(0, 1280, 30)
 foody = random.randrange(0, 720, 30)
 
+#scoring 
+score = 0
+font = pygame.font.SysFont("Arial", 30)
+
 
 #direction 
 direction = "RIGHT"
@@ -31,8 +35,8 @@ def snake_move(x, y, oldx, oldy):
     pygame.draw.rect(screen, (255, 192, 203), pygame.Rect(x, y, 30, 30))
 
 while not exit_game:
-    pygame.draw.rect(screen, (255, 192, 203), pygame.Rect(x, y, 30, 30))
-    pygame.draw.rect(screen, (0, 255, 255), pygame.Rect(foodx, foody, 30, 30))
+    pygame.draw.rect(screen, (255, 192, 203), pygame.Rect(x, y, 30, 30))#initial snake position and size
+    pygame.draw.rect(screen, (0, 255, 255), pygame.Rect(foodx, foody, 30, 30))# the snake food position
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -66,7 +70,11 @@ while not exit_game:
     if x == foodx and y == foody:
         foodx = random.randrange(0, 1280, 30)
         foody = random.randrange(0, 720, 30)
+        score+=1
+        screen.fill((0, 0, 0), (10, 10, 200, 40)) #refresh the position of score
+        text = font.render(f"Score: {score}", True, (255, 255, 255))
+        screen.blit(text, (10,10))
 
     snake_move(x, y, oldx, oldy)
     pygame.display.update()
-    clock.tick(5)
+    clock.tick(20)
